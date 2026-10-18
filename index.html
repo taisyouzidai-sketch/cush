@@ -655,715 +655,714 @@
         </div>
 
 
-            <!-- 3. フード伝票 -->
-            <div class="section" style="border-top:4px solid var(--f-c); background:#fff3e0;">
-                <div class="sec-title">🍔 フード伝票 <button class="btn-add" onclick="addSheet('food')">＋伝票追加</button></div>
-                <div id="food-area" class="sheets-grid"></div>
-                <div class="summary-display">
-                    <div style="color:var(--f-c); font-weight:bold;">フード合計: <span id="f-final-total"
-                            class="total-text">0</span> 円</div>
-                </div>
-            </div>
-            <!-- 🍴 飲食代 総計 -->
-            <div class="section" style="border:2px solid var(--a-c); background:#e8f5e9; text-align:right;">
-                <div class="formula-text" style="color:var(--a-c);" id="insyoku-formula">内訳: ドリンク 0 + フード 0</div>
-                <div style="color:var(--a-c); font-size:1.5rem; font-weight:bold;">🍴 飲食代 総計: <span
-                        id="insyoku-final-total" style="font-size:2rem;">0</span> 円</div>
-            </div>
-
-            <!-- 4. 特別料金 -->
-            <div class="section" style="border-top:4px solid var(--s-c); background:#fce4ec;">
-                <div class="sec-title">✨ 特別料金 <button class="btn-add" onclick="addSpecialRow()">＋項目追加</button></div>
-                <div id="special-list"></div>
-                <!-- 「特別料金 合計」の表記を削除しました -->
-            </div>
-
-            <!-- 5. 入場料 -->
-            <div class="section" style="border-top:4px solid var(--e-c); background:#f1f3f4;">
-                <div class="sec-title">🎫 当日支払い入場料</div>
-                <div
-                    style="background:white; padding:8px; border-radius:5px; border:1px dashed #ccc; margin-bottom:8px;">
-                    <div style="font-weight:bold; font-size:1.1rem;">🎟 前売り <button class="btn-add"
-                            onclick="addEntryRow('mae')">＋追加</button></div>
-                    <div id="entry-mae-list"></div>
-                    <div style="text-align:right; font-weight:bold;">前売り計: <span id="e-mae-total"
-                            style="font-size:1.4rem;">0</span> 円</div>
-                </div>
-                <div style="background:white; padding:8px; border-radius:5px; border:1px dashed #ccc;">
-                    <div style="font-weight:bold; font-size:1.1rem;">🎫 当日券 <button class="btn-add"
-                            onclick="addEntryRow('tou')">＋追加</button></div>
-                    <div id="entry-tou-list"></div>
-                    <div style="text-align:right; font-weight:bold;">当日券計: <span id="e-tou-total"
-                            style="font-size:1.4rem;">0</span> 円</div>
-                </div>
-                <div style="text-align:right; font-weight:bold; font-size:1.3rem; color:var(--e-c); margin-top:8px;">入場料
-                    総計: <span id="e-grand" class="total-text">0</span> 円</div>
-            </div>
-
-            <div class="grand-container">
-                <div class="grand-formula" id="grand-formula-box">合算式: (飲食 0) + (入場料 0) + (特別 0) = 0</div>
-                <!-- 総計の下の内訳名（追加した特別項目名など）を大きく -->
-                <div id="breakdown-names" style="font-size:14px; margin-bottom:8px; color:#bdc3c7; font-weight:bold;">
-                    (内訳: ---)</div>
-                <div style="font-size:1.2rem; font-weight:bold;">総売上</div>
-                <div class="grand-val">¥ <span id="g-total">0</span></div>
-            </div>
-
-            <div id="extra-sp-area"
-                style="display:none; border:2px solid #ccc; padding:10px; margin-bottom:15px; background:#fafafa; border-radius:6px;">
-                <div style="font-weight:bold; color:var(--s-c); font-size:1.1rem;">【売上外・特別料金】</div>
-                <div id="extra-sp-list" style="line-height:1.6; font-size:14px; font-weight:bold;"></div>
-                <div
-                    style="text-align:right; font-weight:bold; margin-top:5px; border-top:1px solid #ccc; font-size:1.2rem;">
-                    売上外 特別料金 合計: <span id="extra-sp-total" class="total-text">0</span> 円</div>
-            </div>
-
-            <div class="section" style="border-top:4px solid #ff0033; background:#ffebee;">
-                <div class="sec-title">📱 PayPay</div>
-                <div class="item-row">合計 <input type="number" id="pp-all" value="0" min="0" oninput="calculate()"> ➖ 昼分
-                    <input type="number" id="pp-noon" value="0" min="0" oninput="calculate()">
-                    <div style="margin-left:auto; font-weight:bold; font-size:1.1rem;">今イベントPayPay: <span id="pp-cur"
-                            class="total-text" style="color:#ff0033;">0</span>円</div>
-                </div>
-                <div
-                    style="text-align:center; background:var(--a-c); color:white; padding:10px; border-radius:4px; margin-top:10px; font-weight:bold; font-size:1.4rem;">
-                    現金売上: ¥ <span id="c-sales" style="font-size:1.8rem;">0</span></div>
-            </div>
-
-            <div class="section" style="border-top:4px solid #666; background:#f5f5f5;">
-                <div class="sec-title">💰 レジ現金在高</div>
-                <table class="cash-table">
-                    <tbody id="cash-body"></tbody>
-                    <tfoot>
-                        <tr>
-                            <th colspan="2" style="font-size:1.2rem;">合計</th>
-                            <th id="reg-total" style="font-size:1.5rem;">0</th>
-                        </tr>
-                    </tfoot>
-                </table>
-                <div
-                    style="text-align:center; font-weight:bold; margin-top:10px; font-size:1.4rem; border-top:2px solid #ccc; padding-top:8px;">
-                    差額: ¥ <span id="diff" style="font-size:1.8rem;">0</span></div>
+        <!-- 3. フード伝票 -->
+        <div class="section" style="border-top:4px solid var(--f-c); background:#fff3e0;">
+            <div class="sec-title">🍔 フード伝票 <button class="btn-add" onclick="addSheet('food')">＋伝票追加</button></div>
+            <div id="food-area" class="sheets-grid"></div>
+            <div class="summary-display">
+                <div style="color:var(--f-c); font-weight:bold;">フード合計: <span id="f-final-total"
+                        class="total-text">0</span> 円</div>
             </div>
         </div>
+        <!-- 🍴 飲食代 総計 -->
+        <div class="section" style="border:2px solid var(--a-c); background:#e8f5e9; text-align:right;">
+            <div class="formula-text" style="color:var(--a-c);" id="insyoku-formula">内訳: ドリンク 0 + フード 0</div>
+            <div style="color:var(--a-c); font-size:1.5rem; font-weight:bold;">🍴 飲食代 総計: <span id="insyoku-final-total"
+                    style="font-size:2rem;">0</span> 円</div>
+        </div>
 
-        <script>
-            //const D_M = {"1000デカ生":1000,"1000メガハイ":1000,"700瓶ビール":700,"700レッドブル類":700,"700コロナ":700,"700スミノフ":700,"700生梅":700,"700ガチレモ":700,"700カシスビア":700,
-            //"600生":600,"600サワー":600,"600カクテル":600,"600ハイボ":600,"600ホッピー":600,"600ワイン":600,
-            //"550ノンアルカクテル":550,"500ソフドリ":500,"400ショット":400,"400(中)ホッピー":400,"300(外)ホッピー":300,"その他":0};
+        <!-- 4. 特別料金 -->
+        <div class="section" style="border-top:4px solid var(--s-c); background:#fce4ec;">
+            <div class="sec-title">✨ 特別料金 <button class="btn-add" onclick="addSpecialRow()">＋項目追加</button></div>
+            <div id="special-list"></div>
+            <!-- 「特別料金 合計」の表記を削除しました -->
+        </div>
 
-            //同じ金額でも改行する前の行の商品　　から順にテンキーで表示が変わるようになっている
-            const D_M = {
-                "1000デカ生": 1000, "1000メガハイボ": 1000, "1000メガチューハイ": 1000, "1000角(W)": 1000,
-                "1100デキャンタ": 1100, "1100ジャック(W)": 1100,
-                "1500ギガ": 1500,
-                "700中瓶ビール": 700, "700コロナ": 700, "700スミノフ": 700, "700カシスビア": 700, "700レッドブル類": 700, "700生梅サワー": 700, "700ガチレモン": 700,
-                "600生": 600, "600ハイボ": 600, "600チューハイ・サワー": 600, "600カクテル": 600, "600焼酎": 600, "600ホッピーセット": 600, "600ワイン": 600,
-                "650ジャック(S)": 650,
-                "500ソフドリ": 500, "500オールフリー": 500,
-                "550ノンアルカクテル": 550,
-                "400ショット": 400, "400ホッピー(中)": 400, "追い酎": 400, "300ホッピー(外)": 300, "その他": 0
-                // ...
-            };
-            const F_M = { "1000キーマ": 1000, "1000スパゲティ": 1000, "1000カルボ": 1000, "1000ナポ": 1000, "1000ボロネ": 1000, "900焼きそば": 900, "800フィッシュポテト": 800, "700明太マヨポテト": 700, "600フライドポテト": 600, "600唐揚げ": 600, "600タコから": 600, "600たこ焼き": 600, "その他": 0 };
-            const U = [10000, 5000, 2000, 1000, 500, 100, 50, 10, 5, 1];
-            let dC = 0, fC = 0;
+        <!-- 5. 入場料 -->
+        <div class="section" style="border-top:4px solid var(--e-c); background:#f1f3f4;">
+            <div class="sec-title">🎫 当日支払い入場料</div>
+            <div style="background:white; padding:8px; border-radius:5px; border:1px dashed #ccc; margin-bottom:8px;">
+                <div style="font-weight:bold; font-size:1.1rem;">🎟 前売り <button class="btn-add"
+                        onclick="addEntryRow('mae')">＋追加</button></div>
+                <div id="entry-mae-list"></div>
+                <div style="text-align:right; font-weight:bold;">前売り計: <span id="e-mae-total"
+                        style="font-size:1.4rem;">0</span> 円</div>
+            </div>
+            <div style="background:white; padding:8px; border-radius:5px; border:1px dashed #ccc;">
+                <div style="font-weight:bold; font-size:1.1rem;">🎫 当日券 <button class="btn-add"
+                        onclick="addEntryRow('tou')">＋追加</button></div>
+                <div id="entry-tou-list"></div>
+                <div style="text-align:right; font-weight:bold;">当日券計: <span id="e-tou-total"
+                        style="font-size:1.4rem;">0</span> 円</div>
+            </div>
+            <div style="text-align:right; font-weight:bold; font-size:1.3rem; color:var(--e-c); margin-top:8px;">入場料
+                総計: <span id="e-grand" class="total-text">0</span> 円</div>
+        </div>
+
+        <div class="grand-container">
+            <div class="grand-formula" id="grand-formula-box">合算式: (飲食 0) + (入場料 0) + (特別 0) = 0</div>
+            <!-- 総計の下の内訳名（追加した特別項目名など）を大きく -->
+            <div id="breakdown-names" style="font-size:14px; margin-bottom:8px; color:#bdc3c7; font-weight:bold;">
+                (内訳: ---)</div>
+            <div style="font-size:1.2rem; font-weight:bold;">総売上</div>
+            <div class="grand-val">¥ <span id="g-total">0</span></div>
+        </div>
+
+        <div id="extra-sp-area"
+            style="display:none; border:2px solid #ccc; padding:10px; margin-bottom:15px; background:#fafafa; border-radius:6px;">
+            <div style="font-weight:bold; color:var(--s-c); font-size:1.1rem;">【売上外・特別料金】</div>
+            <div id="extra-sp-list" style="line-height:1.6; font-size:14px; font-weight:bold;"></div>
+            <div
+                style="text-align:right; font-weight:bold; margin-top:5px; border-top:1px solid #ccc; font-size:1.2rem;">
+                売上外 特別料金 合計: <span id="extra-sp-total" class="total-text">0</span> 円</div>
+        </div>
+
+        <div class="section" style="border-top:4px solid #ff0033; background:#ffebee;">
+            <div class="sec-title">📱 PayPay</div>
+            <div class="item-row">合計 <input type="number" id="pp-all" value="0" min="0" oninput="calculate()"> ➖ 昼分
+                <input type="number" id="pp-noon" value="0" min="0" oninput="calculate()">
+                <div style="margin-left:auto; font-weight:bold; font-size:1.1rem;">今イベントPayPay: <span id="pp-cur"
+                        class="total-text" style="color:#ff0033;">0</span>円</div>
+            </div>
+            <div
+                style="text-align:center; background:var(--a-c); color:white; padding:10px; border-radius:4px; margin-top:10px; font-weight:bold; font-size:1.4rem;">
+                現金売上: ¥ <span id="c-sales" style="font-size:1.8rem;">0</span></div>
+        </div>
+
+        <div class="section" style="border-top:4px solid #666; background:#f5f5f5;">
+            <div class="sec-title">💰 レジ現金在高</div>
+            <table class="cash-table">
+                <tbody id="cash-body"></tbody>
+                <tfoot>
+                    <tr>
+                        <th colspan="2" style="font-size:1.2rem;">合計</th>
+                        <th id="reg-total" style="font-size:1.5rem;">0</th>
+                    </tr>
+                </tfoot>
+            </table>
+            <div
+                style="text-align:center; font-weight:bold; margin-top:10px; font-size:1.4rem; border-top:2px solid #ccc; padding-top:8px;">
+                差額: ¥ <span id="diff" style="font-size:1.8rem;">0</span></div>
+        </div>
+    </div>
+
+    <script>
+        //const D_M = {"1000デカ生":1000,"1000メガハイ":1000,"700瓶ビール":700,"700レッドブル類":700,"700コロナ":700,"700スミノフ":700,"700生梅":700,"700ガチレモ":700,"700カシスビア":700,
+        //"600生":600,"600サワー":600,"600カクテル":600,"600ハイボ":600,"600ホッピー":600,"600ワイン":600,
+        //"550ノンアルカクテル":550,"500ソフドリ":500,"400ショット":400,"400(中)ホッピー":400,"300(外)ホッピー":300,"その他":0};
+
+        //同じ金額でも改行する前の行の商品　　から順にテンキーで表示が変わるようになっている
+        const D_M = {
+            "1000デカ生": 1000, "1000メガハイボ": 1000, "1000メガチューハイ": 1000, "1000角(W)": 1000,
+            "1100デキャンタ": 1100, "1100ジャック(W)": 1100,
+            "1500ギガ": 1500,
+            "700中瓶ビール": 700, "700コロナ": 700, "700スミノフ": 700, "700カシスビア": 700, "700レッドブル類": 700, "700生梅サワー": 700, "700ガチレモン": 700,
+            "600生": 600, "600ハイボ": 600, "600チューハイ・サワー": 600, "600カクテル": 600, "600焼酎": 600, "600ホッピーセット": 600, "600ワイン": 600,
+            "650ジャック(S)": 650,
+            "500ソフドリ": 500, "500オールフリー": 500,
+            "550ノンアルカクテル": 550,
+            "400ショット": 400, "400ホッピー(中)": 400, "追い酎": 400, "300ホッピー(外)": 300, "その他": 0
+            // ...
+        };
+        const F_M = { "1000キーマ": 1000, "1000スパゲティ": 1000, "1000カルボ": 1000, "1000ナポ": 1000, "1000ボロネ": 1000, "900焼きそば": 900, "800フィッシュポテト": 800, "700明太マヨポテト": 700, "600フライドポテト": 600, "600唐揚げ": 600, "600タコから": 600, "600たこ焼き": 600, "その他": 0 };
+        const U = [10000, 5000, 2000, 1000, 500, 100, 50, 10, 5, 1];
+        let dC = 0, fC = 0;
 
 
-            function addSheet(t) {
-                const n = (t === 'drink') ? ++dC : ++fC;
-                const area = document.getElementById(t + '-area');
-                const items = t === 'drink' ? D_M : F_M;
-                const s = document.createElement('div');
-                s.className = 'sheet ' + t + '-sheet';
-                let rs = '';
+        function addSheet(t) {
+            const n = (t === 'drink') ? ++dC : ++fC;
+            const area = document.getElementById(t + '-area');
+            const items = t === 'drink' ? D_M : F_M;
+            const s = document.createElement('div');
+            s.className = 'sheet ' + t + '-sheet';
+            let rs = '';
 
-                for (let i = 0; i < 10; i++) {
-                    // 行番号の<span>を削除し、商品名保存(value="${k}")と自動保存(saveToLocal)を維持した最小構成
-                    //rs += `<div class="item-row"><select onchange="itemChg(this)" onkeydown="quickSelect(event, this)"><option value="">-</option>${Object.keys(items).map(k => `<option value="${k}">${k}</option>`).join('')}</select><input type="number" class="p" value="0" min="0" oninput="calculate();saveToLocal();">×<input type="number" class="q" value="0" min="0" oninput="calculate();saveToLocal();"><div class="row-total">0</div></div>`;
-                    rs += `<div class="item-row"><span class="row-num">${i + 1}</span><select onchange="itemChg(this)" onkeydown="quickSelect(event, this)"><option value="">-</option>${Object.keys(items).map(k => `<option value="${k}">${k}</option>`).join('')}</select><input type="number" class="p" value="0" min="0" oninput="calculate();saveToLocal();">×<input type="number" class="q" value="0" min="0" oninput="calculate();saveToLocal();"><div class="row-total">0</div></div>`;
-                }
+            for (let i = 0; i < 10; i++) {
+                // 行番号の<span>を削除し、商品名保存(value="${k}")と自動保存(saveToLocal)を維持した最小構成
+                //rs += `<div class="item-row"><select onchange="itemChg(this)" onkeydown="quickSelect(event, this)"><option value="">-</option>${Object.keys(items).map(k => `<option value="${k}">${k}</option>`).join('')}</select><input type="number" class="p" value="0" min="0" oninput="calculate();saveToLocal();">×<input type="number" class="q" value="0" min="0" oninput="calculate();saveToLocal();"><div class="row-total">0</div></div>`;
+                rs += `<div class="item-row"><span class="row-num">${i + 1}</span><select onchange="itemChg(this)" onkeydown="quickSelect(event, this)"><option value="">-</option>${Object.keys(items).map(k => `<option value="${k}">${k}</option>`).join('')}</select><input type="number" class="p" value="0" min="0" oninput="calculate();saveToLocal();">×<input type="number" class="q" value="0" min="0" oninput="calculate();saveToLocal();"><div class="row-total">0</div></div>`;
+            }
 
 
-                // 修正点3：×ボタンのonclickに saveToLocal(); を追加（削除を即座に保存するため）
-                s.innerHTML = `<div class="sheet-header">
+            // 修正点3：×ボタンのonclickに saveToLocal(); を追加（削除を即座に保存するため）
+            s.innerHTML = `<div class="sheet-header">
         <span>${t === 'drink' ? '飲' : '食'}伝票 No.${n}</span>
         <span class="s-sum">0円</span>
         <button class="btn-del" onclick="this.parentElement.parentElement.remove();calculate();saveToLocal();">×</button>
     </div>${rs}`;
 
-                area.appendChild(s);
+            area.appendChild(s);
+        }
+
+
+        // 数字キーで価格帯をクイック選択する関数
+        function quickSelect(e, sel) {
+            const key = e.key;
+            if (!/^[0-9]$/.test(key)) return;
+            e.preventDefault();
+            const options = Array.from(sel.options);
+            const currentIndex = sel.selectedIndex;
+            const matches = options.filter(opt => opt.value.startsWith(key));
+            if (matches.length > 0) {
+                let nextMatch = matches.find(opt => opt.index > currentIndex) || matches[0];
+                sel.selectedIndex = nextMatch.index;
+                itemChg(sel);
+            }
+        }
+
+
+        function itemChg(s) {
+            const sel = s;
+            const itemName = sel.value;
+            const tr = sel.closest('.item-row');
+            const pInput = tr.querySelector('.p');
+            const qInput = tr.querySelector('.q'); // 数量入力欄を取得
+
+            const isDrink = sel.closest('.drink-sheet');
+            const menu = isDrink ? D_M : F_M;
+
+            // 1. 商品名に対応する金額があれば単価セット
+            if (menu[itemName] !== undefined) {
+                pInput.value = menu[itemName];
+
+                // 2. ★ここで個数を自動入力（未入力や0の場合のみ1にする）
+                if (itemName !== "" && (Number(qInput.value) === 0)) {
+                    qInput.value = 1;
+                }
+            } else {
+                pInput.value = 0;
             }
 
+            if (typeof calculate === 'function') calculate();
+            if (typeof saveToLocal === 'function') saveToLocal();
+        }
 
-            // 数字キーで価格帯をクイック選択する関数
-            function quickSelect(e, sel) {
-                const key = e.key;
-                if (!/^[0-9]$/.test(key)) return;
+        //特別料金
+        function addSpecialRow() {
+            const l = document.getElementById('special-list');
+            const d = document.createElement('div');
+            d.className = 'item-row special-item';
+            // 削除ボタン(btn-del)の onclick にも saveToLocal(); saveHistory(); を追加
+            d.innerHTML = `<input type="text" class="sp-n" placeholder="項目" style="width:100px"> <input type="number" class="p" value="0" min="0" oninput="calculate()"> × <input type="number" class="q" value="0" min="0" oninput="calculate()"> <div class="row-total">0</div> <label style="font-size:9px;"><input type="checkbox" class="incl" onchange="calculate()">込</label> <button class="btn-del" onclick="this.parentElement.remove();calculate();saveToLocal();saveHistory();">×</button>`;
+            l.appendChild(d);
+
+            // 追加した瞬間の状態を保存
+            saveToLocal();
+            saveHistory();
+        }
+
+        //当日支払い　前売り料金、当日料金
+        function addEntryRow(t) {
+            const l = document.getElementById('entry-' + t + '-list');
+            const d = document.createElement('div');
+            d.className = 'item-row entry-item';
+            d.dataset.t = t;
+            // 削除ボタン(btn-del)の onclick にも saveToLocal(); saveHistory(); を追加
+            d.innerHTML = `<input type="text" value="${t === 'mae' ? '前売り' : '当日券'}" style="width:80px"> <input type="number" class="e-p" value="0" min="0" oninput="calculate()"> × <input type="number" class="e-q" value="0" min="0" oninput="calculate()"> <div class="row-total">0</div> <button class="btn-del" onclick="this.parentElement.remove();calculate();saveToLocal();saveHistory();">×</button>`;
+            l.appendChild(d);
+
+            // 追加した瞬間の状態を保存
+            saveToLocal();
+            saveHistory();
+        }
+
+
+
+
+        function calculate() {
+            const b = (Number(document.getElementById('b-price').value) || 0) * (Number(document.getElementById('b-qty').value) || 0);
+            document.getElementById('b-total').innerText = b.toLocaleString();
+
+            const calc = (cls) => {
+                let grand = 0;
+                document.querySelectorAll(cls).forEach(s => {
+                    let sSum = 0;
+                    s.querySelectorAll('.item-row').forEach(r => {
+                        const sub = (Number(r.querySelector('.p, .e-p')?.value) || 0) * (Number(r.querySelector('.q, .e-q')?.value) || 0);
+                        if (r.querySelector('.row-total')) r.querySelector('.row-total').innerText = sub.toLocaleString();
+                        sSum += sub;
+                    });
+                    if (s.querySelector('.s-sum')) s.querySelector('.s-sum').innerText = sSum.toLocaleString() + "円";
+                    grand += sSum;
+                });
+                return grand;
+            };
+
+
+
+            const dS = calc('.drink-sheet');
+            const fS = calc('.food-sheet');
+            const dF = dS + b;
+
+            // ドリンク伝票のみの合計を表示
+            if (document.getElementById('d-sheet-only')) {
+                document.getElementById('d-sheet-only').innerText = dS.toLocaleString();
+            }
+
+            // ドリンク代の合算式と合計
+            document.getElementById('d-formula').innerText = `合算式: 伝票(${dS.toLocaleString()}) + バッジ(${b.toLocaleString()})`;
+            document.getElementById('d-final-total').innerText = dF.toLocaleString();
+            document.getElementById('f-final-total').innerText = fS.toLocaleString();
+
+            // 飲食代全体の合計
+            const iF = dF + fS;
+            document.getElementById('insyoku-formula').innerText = `内訳: ドリンク(バ込) ${dF.toLocaleString()} + フード ${fS.toLocaleString()}`;
+            document.getElementById('insyoku-final-total').innerText = iF.toLocaleString();
+
+
+            let si = 0, se = 0, sn = [], exH = '';
+            document.querySelectorAll('.special-item').forEach(r => {
+                const sub = (Number(r.querySelector('.p').value) || 0) * (Number(r.querySelector('.q').value) || 0);
+                r.querySelector('.row-total').innerText = sub.toLocaleString();
+                const n = r.querySelector('.sp-n').value || "特";
+                if (r.querySelector('.incl').checked) { si += sub; if (sub > 0) sn.push(n); }
+                else { se += sub; if (sub > 0) exH += `<div>・${n}: ${sub.toLocaleString()}円</div>`; }
+            });
+            document.getElementById('extra-sp-list').innerHTML = exH || "なし";
+            document.getElementById('extra-sp-total').innerText = se.toLocaleString();
+            document.getElementById('extra-sp-area').style.display = se > 0 ? 'block' : 'none';
+
+            let em = 0, et = 0;
+            document.querySelectorAll('.entry-item').forEach(r => {
+                const sub = (Number(r.querySelector('.e-p').value) || 0) * (Number(r.querySelector('.e-q').value) || 0);
+                r.querySelector('.row-total').innerText = sub.toLocaleString();
+                if (r.dataset.t === 'mae') em += sub; else et += sub;
+            });
+            document.getElementById('e-mae-total').innerText = em.toLocaleString();
+            document.getElementById('e-tou-total').innerText = et.toLocaleString();
+            const eg = em + et; document.getElementById('e-grand').innerText = eg.toLocaleString();
+
+            const gt = iF + si + eg;
+            document.getElementById('g-total').innerText = gt.toLocaleString();
+            document.getElementById('grand-formula-box').innerText = `合算式: (飲食 ${iF.toLocaleString()}) + (入場料 ${eg.toLocaleString()}) + (特別 ${si.toLocaleString()}) = ${gt.toLocaleString()}`;
+            document.getElementById('breakdown-names').innerText = `(内訳: 飲食・入場料` + (sn.length ? "・" + sn.join("・") : "") + ")";
+
+            const pp = (Number(document.getElementById('pp-all').value) || 0) - (Number(document.getElementById('pp-noon').value) || 0);
+            document.getElementById('pp-cur').innerText = pp.toLocaleString();
+            const cs = gt - pp; document.getElementById('c-sales').innerText = cs.toLocaleString();
+
+            let rt = 0;
+            document.querySelectorAll('.c-q').forEach(i => {
+                const sub = (Number(i.dataset.u)) * (Number(i.value) || 0);
+                i.parentElement.nextElementSibling.innerText = sub.toLocaleString();
+                rt += sub;
+            });
+            document.getElementById('reg-total').innerText = rt.toLocaleString();
+            document.getElementById('diff').innerText = (rt - cs).toLocaleString();
+        }
+
+
+
+        function generateTableLog() {
+            const now = new Date();
+            const dateStr = now.toLocaleDateString('ja-JP');
+            const timeStr = now.toLocaleTimeString('ja-JP', {
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+
+            // IDからテキストを取得し、カンマを除去して純粋な数字のみを返す関数
+            const getT = (id) => {
+                const el = document.getElementById(id);
+                return el ? el.innerText.replace(/,/g, '') : "0";
+            };
+
+            // ★ドリンク伝票のみ（バッジ代を引いた額）を計算
+            const drinkSheetOnly = Number(getT('d-final-total')) - Number(getT('b-total'));
+
+            // --- 特別料金の内訳抽出 ---
+            let specialRowsText = "";
+            const specialRows = document.querySelectorAll('#special-list .item-row');
+
+            specialRows.forEach(row => {
+                // 1. 入力された項目名
+                const name = row.querySelector('input[type="text"]')?.value || "項目名なし";
+
+                // 2. その行のテキストからカンマを消去してから数字を探す
+                const rowTextWithoutComma = row.innerText.replace(/,/g, '');
+                const numbers = rowTextWithoutComma.match(/\d+/g);
+
+                // 3. 一番最後にある数字（＝計算結果の合計）を取得
+                const finalVal = numbers ? numbers[numbers.length - 1] : "0";
+
+                specialRowsText += `${dateStr}\t${timeStr}\t特別：${name}\t${finalVal}\n`;
+            });
+
+            // --- メインデータの組み立て ---
+            const mainItems = [
+                ["バッジ代合計", getT('b-total')],
+                ["ドリンク伝票合計", drinkSheetOnly],
+                //["ドリンク伝票合計", drinkSheetOnly.toLocaleString()], 今消しているところを作用する様にすると、ログがカンマつきになる
+                ["ドリンク合計", getT('d-final-total')],
+                ["フード合計", getT('f-final-total')],
+                ["飲食代総計", getT('insyoku-final-total')],
+                ["前売り入場料計", getT('e-mae-total')],
+                ["当日入場料計", getT('e-tou-total')],
+                ["入場料総計", getT('e-grand')],
+                ["特別料金(売上外)計", getT('extra-sp-total')],
+                ["今イベントPayPay", getT('pp-cur')],
+                ["現金売上総計", getT('c-sales')],
+                ["🔥総売り上げ", getT('g-total')]
+            ];
+
+            let report = "";
+            mainItems.forEach(item => {
+                // item[0]が項目名、item[1]が金額
+                report += `${dateStr}\t${timeStr}\t${item[0]}\t${item[1]}\n`;
+            });
+
+            if (specialRowsText) {
+                report += `--- 特別料金内訳 ---\n` + specialRowsText;
+            }
+
+            report += "------------------------------------------\n";
+
+            // 最新のログを一番上に追加
+            const logBox = document.getElementById('logOutput');
+            if (logBox) {
+                logBox.value = report + logBox.value;
+            }
+        }
+
+        //テンキーで移動する
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                // すべての入力欄を取得
+                const ins = Array.from(document.querySelectorAll('input:not([readonly]), select'));
+                const idx = ins.indexOf(e.target);
+
+                if (idx > -1) {
+                    e.preventDefault(); // エンターの規定動作（改行や送信）を止める
+
+                    // 在高エリアの全入力欄を取得
+                    const cqInputs = Array.from(document.querySelectorAll('.c-q'));
+                    const lastCq = cqInputs[cqInputs.length - 1]; // 1円の欄
+                    const firstCq = cqInputs[0];                  // 1万円の欄
+
+                    // タイマーを入れることで、Enterキーが完全に「離された」後に移動させます
+                    //クロークなど文字を入れた後の数値を入れたい枠にマイナスが入らないようにするための作業をしている
+                    setTimeout(() => {
+                        // もし今「1円」の欄にいたら、強制的に「1万円」へ飛ばす
+                        if (e.target === lastCq) {
+                            firstCq.focus();
+                            firstCq.select(); // 0を上書きしやすいように全選択
+                        }
+                        // それ以外なら、通常通り次の項目へ
+                        else if (idx < ins.length - 1) {
+                            ins[idx + 1].focus();
+                            // select() は focusin イベント側で制御されているので、ここでは focus() だけでOK
+                        }
+                    }, 0);
+                }
+            }
+        });
+
+
+
+        //テンキーで移動した先が選択された状態になる　→ 0などを消去せずともすぐに数字を入力できる様にしている
+        document.addEventListener('focusin', (e) => { if (e.target.tagName === 'INPUT') e.target.select(); });
+
+
+        async function copyToClipboard() {
+            const logBox = document.getElementById('logOutput');
+
+            if (!logBox.value) {
+                alert("コピーするログがありません。先に「ログを生成」を押してください。");
+                return;
+            }
+
+            try {
+                // 最新のコピー方法（Clipboard API）
+                await navigator.clipboard.writeText(logBox.value);
+                alert("📋 ログをクリップボードにコピーしました！\nそのままExcelやLINEに貼り付けられます。");
+            } catch (err) {
+                // 古いブラウザ用のフォールバック
+                logBox.select();
+                document.execCommand('copy');
+                alert("📋 ログをコピーしました。");
+            }
+        }
+
+
+
+
+        /* --- 最終調整版：自動保存・確実なUndo/Redo --- */
+        let historyStack = [];
+        let redoStack = [];
+
+        // 1. 保存：伝票の並び順と、全ての値をセットで保存
+        let isRestoring = false; // 復元中フラグ
+
+        // 1. 保存：伝票構成と数値のみを記録
+        function saveToLocal() {
+            if (isRestoring) return;
+
+            const data = {
+                sheets: [],
+                entries: [],
+                specials: 0,
+                values: []
+            };
+
+            // 枠の構成を記録
+            document.querySelectorAll('.sheet').forEach(s => data.sheets.push(s.classList.contains('drink-sheet') ? 'drink' : 'food'));
+            document.querySelectorAll('.entry-item').forEach(e => data.entries.push(e.dataset.t));
+            data.specials = document.querySelectorAll('.special-item').length;
+
+            // 数値と選択項目のみを記録（textareaを除外）
+            document.querySelectorAll('input, select, textarea').forEach(el => {
+                data.values.push(el.type === 'checkbox' ? el.checked : el.value);
+            });
+
+            localStorage.setItem('sales_data', JSON.stringify(data));
+        }
+
+        // 2. 復元：枠を作り直して数値を流し込む
+        function loadFromLocal() {
+            const saved = localStorage.getItem('sales_data');
+            if (!saved) return;
+            const data = JSON.parse(saved);
+
+            isRestoring = true;
+
+            // 枠のリセットと再構築
+            document.querySelectorAll('.sheet, .entry-item, .special-item').forEach(el => el.remove());
+            dC = 0; fC = 0;
+            if (data.sheets) data.sheets.forEach(type => addSheet(type));
+            if (data.entries) data.entries.forEach(type => addEntryRow(type));
+            if (data.specials) { for (let i = 0; i < data.specials; i++) addSpecialRow(); }
+
+            // 値の流し込み（textareaを除外）
+            const inputs = document.querySelectorAll('input, select,textarea');
+            data.values.forEach((val, i) => {
+                const el = inputs[i];
+                if (el) {
+                    if (el.type === 'checkbox') el.checked = val;
+                    else el.value = val;
+                    if (el.tagName === 'SELECT' && val !== "") itemChg(el);
+                }
+            });
+
+            if (typeof calculate === 'function') calculate();
+            isRestoring = false;
+        }
+
+
+
+
+
+        // 3. 履歴の保存（Undo/Redo用）
+        //function saveHistory() {
+        //        const data = {
+        // sheetsも含めて履歴に残すことで、Ctrl+Zで枚数も戻るようになります
+        //            sheets: Array.from(document.querySelectorAll('.sheet')).map(s => s.classList.contains('drink-sheet') ? 'drink' : 'food'),
+        //            values: Array.from(document.querySelectorAll('input, select, textarea')).map(el => (el.type === 'checkbox') ? el.checked : el.value)
+        //        };
+        //        const state = JSON.stringify(data);
+
+        //        if (historyStack.length > 0 && historyStack[historyStack.length - 1] === state) return;
+        //        historyStack.push(state);
+        //        if (historyStack.length > 50) historyStack.shift();
+        //        redoStack = [];
+        //    }
+
+
+        function saveHistory() {
+            if (isRestoring) return; // ★復元中は履歴を作らない（Redoスタックを守る）
+
+            const data = {
+                sheets: Array.from(document.querySelectorAll('.sheet')).map(s => s.classList.contains('drink-sheet') ? 'drink' : 'food'),
+                entries: Array.from(document.querySelectorAll('.entry-item')).map(e => e.dataset.t),
+                specials: document.querySelectorAll('.special-item').length,
+                values: Array.from(document.querySelectorAll('input, select, textarea')).map(el => (el.type === 'checkbox') ? el.checked : el.value)
+            };
+            const state = JSON.stringify(data);
+
+            if (historyStack.length > 0 && historyStack[historyStack.length - 1] === state) return;
+            historyStack.push(state);
+            if (historyStack.length > 50) historyStack.shift();
+            redoStack = []; // 新しい操作をした時だけRedoを空にする
+        }
+
+
+        // 4. 元に戻す (Undo)
+        function undo() {
+            if (historyStack.length <= 1) return;
+            redoStack.push(historyStack.pop());
+            const prevState = JSON.parse(historyStack[historyStack.length - 1]);
+            applyState(prevState);
+        }
+
+        // 5. やり直し (Redo)
+        function redo() {
+            if (redoStack.length === 0) return;
+            const nextState = redoStack.pop();
+            historyStack.push(nextState);
+            applyState(JSON.parse(nextState));
+        }
+
+
+        // 画面反映
+        function applyState(stateData) {
+            if (!stateData) return;
+            const data = typeof stateData === 'string' ? JSON.parse(stateData) : stateData;
+
+            const scrollX = window.scrollX;
+            const scrollY = window.scrollY;
+
+            isRestoring = true; // ★ここから保存を禁止する
+
+            // 枠の全消去と再構築
+            document.querySelectorAll('.sheet, .entry-item, .special-item').forEach(el => el.remove());
+            if (typeof dC !== 'undefined') dC = 0;
+            if (typeof fC !== 'undefined') fC = 0;
+
+            if (data.sheets) data.sheets.forEach(type => addSheet(type));
+            if (data.entries) data.entries.forEach(type => { if (typeof addEntryRow === 'function') addEntryRow(type); });
+            if (data.specials) { for (let i = 0; i < data.specials; i++) { if (typeof addSpecialRow === 'function') addSpecialRow(); } }
+
+            // 値の流し込み
+            const inputs = document.querySelectorAll('input, select, textarea');
+            data.values.forEach((val, i) => {
+                if (inputs[i]) {
+                    if (inputs[i].type === 'checkbox') inputs[i].checked = val;
+                    else inputs[i].value = val;
+                    if (inputs[i].tagName === 'SELECT' && val !== "" && typeof itemChg === 'function') itemChg(inputs[i]);
+                }
+            });
+
+            if (typeof calculate === 'function') calculate();
+
+            // ★重要：ここでの saveToLocal は redoStack を壊さないように慎重に行う
+            localStorage.setItem('sales_data', JSON.stringify(data));
+
+            isRestoring = false; // ★保存禁止を解除
+            window.scrollTo(scrollX, scrollY);
+        }
+
+
+        // 6. キー操作 (ブラウザ標準機能を上書き)
+        window.addEventListener('keydown', (e) => {
+            const isCmd = e.ctrlKey || e.metaKey;
+            if (isCmd && e.key.toLowerCase() === 'z') {
                 e.preventDefault();
-                const options = Array.from(sel.options);
-                const currentIndex = sel.selectedIndex;
-                const matches = options.filter(opt => opt.value.startsWith(key));
-                if (matches.length > 0) {
-                    let nextMatch = matches.find(opt => opt.index > currentIndex) || matches[0];
-                    sel.selectedIndex = nextMatch.index;
-                    itemChg(sel);
-                }
+                if (e.shiftKey) redo(); else undo();
+            }
+            if (isCmd && e.key.toLowerCase() === 'y') {
+                e.preventDefault();
+                redo();
+            }
+        }, true); // 第3引数をtrueにして優先度を上げる
+
+        // 7. タイミングの最適化
+        // inputのたびに保存（閉じても大丈夫なように）
+        document.addEventListener('input', saveToLocal);
+
+        // change（入力確定時）にだけ履歴を作る（Undoが使いやすくなる）
+        document.addEventListener('change', saveHistory);
+
+
+
+
+        window.addEventListener('load', () => {
+            // 1. 在高テーブルの作成（これだけはデータに関わらず必要）
+            const cb = document.getElementById('cash-body');
+            if (cb) {
+                cb.innerHTML = ""; // 重複防止のため一度空にする
+                U.forEach(v => {
+                    cb.innerHTML += `<tr><td>${v.toLocaleString()}</td><td><input type="number" class="c-q" data-u="${v}" value="0" min="0" oninput="calculate()"></td><td class="c-s">0</td></tr>`;
+                });
             }
 
-
-            function itemChg(s) {
-                const sel = s;
-                const itemName = sel.value;
-                const tr = sel.closest('.item-row');
-                const pInput = tr.querySelector('.p');
-                const qInput = tr.querySelector('.q'); // 数量入力欄を取得
-
-                const isDrink = sel.closest('.drink-sheet');
-                const menu = isDrink ? D_M : F_M;
-
-                // 1. 商品名に対応する金額があれば単価セット
-                if (menu[itemName] !== undefined) {
-                    pInput.value = menu[itemName];
-
-                    // 2. ★ここで個数を自動入力（未入力や0の場合のみ1にする）
-                    if (itemName !== "" && (Number(qInput.value) === 0)) {
-                        qInput.value = 1;
-                    }
-                } else {
-                    pInput.value = 0;
-                }
-
+            // 2. データの復元、または初期伝票の作成
+            const saved = localStorage.getItem('sales_data');
+            if (saved) {
+                // 保存データがあれば、そこから伝票枚数も中身もすべて復元
+                loadFromLocal();
+            } else {
+                // 保存データがない（初回起動）時だけ、基本のセットを出す
+                addSheet('drink');
+                addSheet('food');
+                if (typeof addEntryRow === 'function') { addEntryRow('mae'); addEntryRow('tou'); }
+                if (typeof addSpecialRow === 'function') addSpecialRow();
                 if (typeof calculate === 'function') calculate();
-                if (typeof saveToLocal === 'function') saveToLocal();
             }
 
-            //特別料金
-            function addSpecialRow() {
-                const l = document.getElementById('special-list');
-                const d = document.createElement('div');
-                d.className = 'item-row special-item';
-                // 削除ボタン(btn-del)の onclick にも saveToLocal(); saveHistory(); を追加
-                d.innerHTML = `<input type="text" class="sp-n" placeholder="項目" style="width:100px"> <input type="number" class="p" value="0" min="0" oninput="calculate()"> × <input type="number" class="q" value="0" min="0" oninput="calculate()"> <div class="row-total">0</div> <label style="font-size:9px;"><input type="checkbox" class="incl" onchange="calculate()">込</label> <button class="btn-del" onclick="this.parentElement.remove();calculate();saveToLocal();saveHistory();">×</button>`;
-                l.appendChild(d);
-
-                // 追加した瞬間の状態を保存
-                saveToLocal();
-                saveHistory();
-            }
-
-            //当日支払い　前売り料金、当日料金
-            function addEntryRow(t) {
-                const l = document.getElementById('entry-' + t + '-list');
-                const d = document.createElement('div');
-                d.className = 'item-row entry-item';
-                d.dataset.t = t;
-                // 削除ボタン(btn-del)の onclick にも saveToLocal(); saveHistory(); を追加
-                d.innerHTML = `<input type="text" value="${t === 'mae' ? '前売り' : '当日券'}" style="width:80px"> <input type="number" class="e-p" value="0" min="0" oninput="calculate()"> × <input type="number" class="e-q" value="0" min="0" oninput="calculate()"> <div class="row-total">0</div> <button class="btn-del" onclick="this.parentElement.remove();calculate();saveToLocal();saveHistory();">×</button>`;
-                l.appendChild(d);
-
-                // 追加した瞬間の状態を保存
-                saveToLocal();
-                saveHistory();
-            }
+            // 3. Undo用の初期状態を記録
+            if (typeof saveHistory === 'function') saveHistory();
+        });
 
 
 
 
-            function calculate() {
-                const b = (Number(document.getElementById('b-price').value) || 0) * (Number(document.getElementById('b-qty').value) || 0);
-                document.getElementById('b-total').innerText = b.toLocaleString();
-
-                const calc = (cls) => {
-                    let grand = 0;
-                    document.querySelectorAll(cls).forEach(s => {
-                        let sSum = 0;
-                        s.querySelectorAll('.item-row').forEach(r => {
-                            const sub = (Number(r.querySelector('.p, .e-p')?.value) || 0) * (Number(r.querySelector('.q, .e-q')?.value) || 0);
-                            if (r.querySelector('.row-total')) r.querySelector('.row-total').innerText = sub.toLocaleString();
-                            sSum += sub;
-                        });
-                        if (s.querySelector('.s-sum')) s.querySelector('.s-sum').innerText = sSum.toLocaleString() + "円";
-                        grand += sSum;
-                    });
-                    return grand;
-                };
 
 
-
-                const dS = calc('.drink-sheet');
-                const fS = calc('.food-sheet');
-                const dF = dS + b;
-
-                // ドリンク伝票のみの合計を表示
-                if (document.getElementById('d-sheet-only')) {
-                    document.getElementById('d-sheet-only').innerText = dS.toLocaleString();
-                }
-
-                // ドリンク代の合算式と合計
-                document.getElementById('d-formula').innerText = `合算式: 伝票(${dS.toLocaleString()}) + バッジ(${b.toLocaleString()})`;
-                document.getElementById('d-final-total').innerText = dF.toLocaleString();
-                document.getElementById('f-final-total').innerText = fS.toLocaleString();
-
-                // 飲食代全体の合計
-                const iF = dF + fS;
-                document.getElementById('insyoku-formula').innerText = `内訳: ドリンク(バ込) ${dF.toLocaleString()} + フード ${fS.toLocaleString()}`;
-                document.getElementById('insyoku-final-total').innerText = iF.toLocaleString();
-
-
-                let si = 0, se = 0, sn = [], exH = '';
-                document.querySelectorAll('.special-item').forEach(r => {
-                    const sub = (Number(r.querySelector('.p').value) || 0) * (Number(r.querySelector('.q').value) || 0);
-                    r.querySelector('.row-total').innerText = sub.toLocaleString();
-                    const n = r.querySelector('.sp-n').value || "特";
-                    if (r.querySelector('.incl').checked) { si += sub; if (sub > 0) sn.push(n); }
-                    else { se += sub; if (sub > 0) exH += `<div>・${n}: ${sub.toLocaleString()}円</div>`; }
-                });
-                document.getElementById('extra-sp-list').innerHTML = exH || "なし";
-                document.getElementById('extra-sp-total').innerText = se.toLocaleString();
-                document.getElementById('extra-sp-area').style.display = se > 0 ? 'block' : 'none';
-
-                let em = 0, et = 0;
-                document.querySelectorAll('.entry-item').forEach(r => {
-                    const sub = (Number(r.querySelector('.e-p').value) || 0) * (Number(r.querySelector('.e-q').value) || 0);
-                    r.querySelector('.row-total').innerText = sub.toLocaleString();
-                    if (r.dataset.t === 'mae') em += sub; else et += sub;
-                });
-                document.getElementById('e-mae-total').innerText = em.toLocaleString();
-                document.getElementById('e-tou-total').innerText = et.toLocaleString();
-                const eg = em + et; document.getElementById('e-grand').innerText = eg.toLocaleString();
-
-                const gt = iF + si + eg;
-                document.getElementById('g-total').innerText = gt.toLocaleString();
-                document.getElementById('grand-formula-box').innerText = `合算式: (飲食 ${iF.toLocaleString()}) + (入場料 ${eg.toLocaleString()}) + (特別 ${si.toLocaleString()}) = ${gt.toLocaleString()}`;
-                document.getElementById('breakdown-names').innerText = `(内訳: 飲食・入場料` + (sn.length ? "・" + sn.join("・") : "") + ")";
-
-                const pp = (Number(document.getElementById('pp-all').value) || 0) - (Number(document.getElementById('pp-noon').value) || 0);
-                document.getElementById('pp-cur').innerText = pp.toLocaleString();
-                const cs = gt - pp; document.getElementById('c-sales').innerText = cs.toLocaleString();
-
-                let rt = 0;
-                document.querySelectorAll('.c-q').forEach(i => {
-                    const sub = (Number(i.dataset.u)) * (Number(i.value) || 0);
-                    i.parentElement.nextElementSibling.innerText = sub.toLocaleString();
-                    rt += sub;
-                });
-                document.getElementById('reg-total').innerText = rt.toLocaleString();
-                document.getElementById('diff').innerText = (rt - cs).toLocaleString();
-            }
-
-
-
-            function generateTableLog() {
-                const now = new Date();
-                const dateStr = now.toLocaleDateString('ja-JP');
-                const timeStr = now.toLocaleTimeString('ja-JP', {
-                    hour: '2-digit',
-                    minute: '2-digit'
-                });
-
-                // IDからテキストを取得し、カンマを除去して純粋な数字のみを返す関数
-                const getT = (id) => {
-                    const el = document.getElementById(id);
-                    return el ? el.innerText.replace(/,/g, '') : "0";
-                };
-
-                // ★ドリンク伝票のみ（バッジ代を引いた額）を計算
-                const drinkSheetOnly = Number(getT('d-final-total')) - Number(getT('b-total'));
-
-                // --- 特別料金の内訳抽出 ---
-                let specialRowsText = "";
-                const specialRows = document.querySelectorAll('#special-list .item-row');
-
-                specialRows.forEach(row => {
-                    // 1. 入力された項目名
-                    const name = row.querySelector('input[type="text"]')?.value || "項目名なし";
-
-                    // 2. その行のテキストからカンマを消去してから数字を探す
-                    const rowTextWithoutComma = row.innerText.replace(/,/g, '');
-                    const numbers = rowTextWithoutComma.match(/\d+/g);
-
-                    // 3. 一番最後にある数字（＝計算結果の合計）を取得
-                    const finalVal = numbers ? numbers[numbers.length - 1] : "0";
-
-                    specialRowsText += `${dateStr}\t${timeStr}\t特別：${name}\t${finalVal}\n`;
-                });
-
-                // --- メインデータの組み立て ---
-                const mainItems = [
-                    ["バッジ代合計", getT('b-total')],
-                    ["ドリンク伝票合計", drinkSheetOnly],
-                    //["ドリンク伝票合計", drinkSheetOnly.toLocaleString()], 今消しているところを作用する様にすると、ログがカンマつきになる
-                    ["ドリンク合計", getT('d-final-total')],
-                    ["フード合計", getT('f-final-total')],
-                    ["飲食代総計", getT('insyoku-final-total')],
-                    ["前売り入場料計", getT('e-mae-total')],
-                    ["当日入場料計", getT('e-tou-total')],
-                    ["入場料総計", getT('e-grand')],
-                    ["特別料金(売上外)計", getT('extra-sp-total')],
-                    ["今イベントPayPay", getT('pp-cur')],
-                    ["現金売上総計", getT('c-sales')],
-                    ["🔥総売り上げ", getT('g-total')]
-                ];
-
-                let report = "";
-                mainItems.forEach(item => {
-                    // item[0]が項目名、item[1]が金額
-                    report += `${dateStr}\t${timeStr}\t${item[0]}\t${item[1]}\n`;
-                });
-
-                if (specialRowsText) {
-                    report += `--- 特別料金内訳 ---\n` + specialRowsText;
-                }
-
-                report += "------------------------------------------\n";
-
-                // 最新のログを一番上に追加
-                const logBox = document.getElementById('logOutput');
-                if (logBox) {
-                    logBox.value = report + logBox.value;
-                }
-            }
-
-            //テンキーで移動する
-            document.addEventListener('keydown', (e) => {
-                if (e.key === 'Enter') {
-                    // すべての入力欄を取得
-                    const ins = Array.from(document.querySelectorAll('input:not([readonly]), select'));
-                    const idx = ins.indexOf(e.target);
-
-                    if (idx > -1) {
-                        e.preventDefault(); // エンターの規定動作（改行や送信）を止める
-
-                        // 在高エリアの全入力欄を取得
-                        const cqInputs = Array.from(document.querySelectorAll('.c-q'));
-                        const lastCq = cqInputs[cqInputs.length - 1]; // 1円の欄
-                        const firstCq = cqInputs[0];                  // 1万円の欄
-
-                        // タイマーを入れることで、Enterキーが完全に「離された」後に移動させます
-                        //クロークなど文字を入れた後の数値を入れたい枠にマイナスが入らないようにするための作業をしている
-                        setTimeout(() => {
-                            // もし今「1円」の欄にいたら、強制的に「1万円」へ飛ばす
-                            if (e.target === lastCq) {
-                                firstCq.focus();
-                                firstCq.select(); // 0を上書きしやすいように全選択
-                            }
-                            // それ以外なら、通常通り次の項目へ
-                            else if (idx < ins.length - 1) {
-                                ins[idx + 1].focus();
-                                // select() は focusin イベント側で制御されているので、ここでは focus() だけでOK
-                            }
-                        }, 0);
-                    }
-                }
+        // 1. 一括リセット機能
+        function clearData() {
+            if (!confirm('入力内容をすべて消去してリセットしますか？')) return;
+            //web上の保存データ削除
+            localStorage.removeItem('sales_data');
+            const inputs = document.querySelectorAll('input, select');
+            inputs.forEach(el => {
+                if (el.type === 'checkbox') el.checked = false;
+                else if (el.type === 'number') el.value = 0;
+                else el.value = "";
             });
 
-
-
-            //テンキーで移動した先が選択された状態になる　→ 0などを消去せずともすぐに数字を入力できる様にしている
-            document.addEventListener('focusin', (e) => { if (e.target.tagName === 'INPUT') e.target.select(); });
-
-
-            async function copyToClipboard() {
-                const logBox = document.getElementById('logOutput');
-
-                if (!logBox.value) {
-                    alert("コピーするログがありません。先に「ログを生成」を押してください。");
-                    return;
-                }
-
-                try {
-                    // 最新のコピー方法（Clipboard API）
-                    await navigator.clipboard.writeText(logBox.value);
-                    alert("📋 ログをクリップボードにコピーしました！\nそのままExcelやLINEに貼り付けられます。");
-                } catch (err) {
-                    // 古いブラウザ用のフォールバック
-                    logBox.select();
-                    document.execCommand('copy');
-                    alert("📋 ログをコピーしました。");
-                }
+            // もしログも保存している場合は削除
+            localStorage.removeItem('sales_log');
+            // 画面上のログエリアを空にする
+            const logBox = document.getElementById('logOutput');
+            if (logBox) {
+                logBox.value = "";
             }
 
+            location.reload();
+            historyStack = [];
+            if (typeof calculate === 'function') calculate();
+            alert('リセットしました');
+        }
 
 
 
-            /* --- 最終調整版：自動保存・確実なUndo/Redo --- */
-            let historyStack = [];
-            let redoStack = [];
+    </script>
 
-            // 1. 保存：伝票の並び順と、全ての値をセットで保存
-            let isRestoring = false; // 復元中フラグ
 
-            // 1. 保存：伝票構成と数値のみを記録
-            function saveToLocal() {
-                if (isRestoring) return;
 
-                const data = {
-                    sheets: [],
-                    entries: [],
-                    specials: 0,
-                    values: []
-                };
 
-                // 枠の構成を記録
-                document.querySelectorAll('.sheet').forEach(s => data.sheets.push(s.classList.contains('drink-sheet') ? 'drink' : 'food'));
-                document.querySelectorAll('.entry-item').forEach(e => data.entries.push(e.dataset.t));
-                data.specials = document.querySelectorAll('.special-item').length;
+    <div class="section" style="border-top:4px solid #444; background:#f9f9f9;">
+        <div class="sec-title">💾 確定ログ保存</div>
+        <div class="log-btn-group no-print">
+            <!-- 1つ目：ログを生成するボタン -->
+            <button onclick="generateTableLog()"
+                style="background:#27ae60; color:white; padding:10px; border:none; border-radius:4px; cursor:pointer; font-weight:bold;">📊
+                ログを生成</button>
 
-                // 数値と選択項目のみを記録（textareaを除外）
-                document.querySelectorAll('input, select, textarea').forEach(el => {
-                    data.values.push(el.type === 'checkbox' ? el.checked : el.value);
-                });
+            <!-- 2つ目：ログをクリップボードにコピーするボタン -->
+            <button onclick="copyToClipboard()"
+                style="background:#0066cc; color:white; padding:10px; border:none; border-radius:4px; cursor:pointer; font-weight:bold;">📋
+                ログをコピー</button>
 
-                localStorage.setItem('sales_data', JSON.stringify(data));
-            }
-
-            // 2. 復元：枠を作り直して数値を流し込む
-            function loadFromLocal() {
-                const saved = localStorage.getItem('sales_data');
-                if (!saved) return;
-                const data = JSON.parse(saved);
-
-                isRestoring = true;
-
-                // 枠のリセットと再構築
-                document.querySelectorAll('.sheet, .entry-item, .special-item').forEach(el => el.remove());
-                dC = 0; fC = 0;
-                if (data.sheets) data.sheets.forEach(type => addSheet(type));
-                if (data.entries) data.entries.forEach(type => addEntryRow(type));
-                if (data.specials) { for (let i = 0; i < data.specials; i++) addSpecialRow(); }
-
-                // 値の流し込み（textareaを除外）
-                const inputs = document.querySelectorAll('input, select,textarea');
-                data.values.forEach((val, i) => {
-                    const el = inputs[i];
-                    if (el) {
-                        if (el.type === 'checkbox') el.checked = val;
-                        else el.value = val;
-                        if (el.tagName === 'SELECT' && val !== "") itemChg(el);
-                    }
-                });
-
-                if (typeof calculate === 'function') calculate();
-                isRestoring = false;
-            }
-
-
-
-
-
-            // 3. 履歴の保存（Undo/Redo用）
-            //function saveHistory() {
-            //        const data = {
-            // sheetsも含めて履歴に残すことで、Ctrl+Zで枚数も戻るようになります
-            //            sheets: Array.from(document.querySelectorAll('.sheet')).map(s => s.classList.contains('drink-sheet') ? 'drink' : 'food'),
-            //            values: Array.from(document.querySelectorAll('input, select, textarea')).map(el => (el.type === 'checkbox') ? el.checked : el.value)
-            //        };
-            //        const state = JSON.stringify(data);
-
-            //        if (historyStack.length > 0 && historyStack[historyStack.length - 1] === state) return;
-            //        historyStack.push(state);
-            //        if (historyStack.length > 50) historyStack.shift();
-            //        redoStack = [];
-            //    }
-
-
-            function saveHistory() {
-                if (isRestoring) return; // ★復元中は履歴を作らない（Redoスタックを守る）
-
-                const data = {
-                    sheets: Array.from(document.querySelectorAll('.sheet')).map(s => s.classList.contains('drink-sheet') ? 'drink' : 'food'),
-                    entries: Array.from(document.querySelectorAll('.entry-item')).map(e => e.dataset.t),
-                    specials: document.querySelectorAll('.special-item').length,
-                    values: Array.from(document.querySelectorAll('input, select, textarea')).map(el => (el.type === 'checkbox') ? el.checked : el.value)
-                };
-                const state = JSON.stringify(data);
-
-                if (historyStack.length > 0 && historyStack[historyStack.length - 1] === state) return;
-                historyStack.push(state);
-                if (historyStack.length > 50) historyStack.shift();
-                redoStack = []; // 新しい操作をした時だけRedoを空にする
-            }
-
-
-            // 4. 元に戻す (Undo)
-            function undo() {
-                if (historyStack.length <= 1) return;
-                redoStack.push(historyStack.pop());
-                const prevState = JSON.parse(historyStack[historyStack.length - 1]);
-                applyState(prevState);
-            }
-
-            // 5. やり直し (Redo)
-            function redo() {
-                if (redoStack.length === 0) return;
-                const nextState = redoStack.pop();
-                historyStack.push(nextState);
-                applyState(JSON.parse(nextState));
-            }
-
-
-            // 画面反映
-            function applyState(stateData) {
-                if (!stateData) return;
-                const data = typeof stateData === 'string' ? JSON.parse(stateData) : stateData;
-
-                const scrollX = window.scrollX;
-                const scrollY = window.scrollY;
-
-                isRestoring = true; // ★ここから保存を禁止する
-
-                // 枠の全消去と再構築
-                document.querySelectorAll('.sheet, .entry-item, .special-item').forEach(el => el.remove());
-                if (typeof dC !== 'undefined') dC = 0;
-                if (typeof fC !== 'undefined') fC = 0;
-
-                if (data.sheets) data.sheets.forEach(type => addSheet(type));
-                if (data.entries) data.entries.forEach(type => { if (typeof addEntryRow === 'function') addEntryRow(type); });
-                if (data.specials) { for (let i = 0; i < data.specials; i++) { if (typeof addSpecialRow === 'function') addSpecialRow(); } }
-
-                // 値の流し込み
-                const inputs = document.querySelectorAll('input, select, textarea');
-                data.values.forEach((val, i) => {
-                    if (inputs[i]) {
-                        if (inputs[i].type === 'checkbox') inputs[i].checked = val;
-                        else inputs[i].value = val;
-                        if (inputs[i].tagName === 'SELECT' && val !== "" && typeof itemChg === 'function') itemChg(inputs[i]);
-                    }
-                });
-
-                if (typeof calculate === 'function') calculate();
-
-                // ★重要：ここでの saveToLocal は redoStack を壊さないように慎重に行う
-                localStorage.setItem('sales_data', JSON.stringify(data));
-
-                isRestoring = false; // ★保存禁止を解除
-                window.scrollTo(scrollX, scrollY);
-            }
-
-
-            // 6. キー操作 (ブラウザ標準機能を上書き)
-            window.addEventListener('keydown', (e) => {
-                const isCmd = e.ctrlKey || e.metaKey;
-                if (isCmd && e.key.toLowerCase() === 'z') {
-                    e.preventDefault();
-                    if (e.shiftKey) redo(); else undo();
-                }
-                if (isCmd && e.key.toLowerCase() === 'y') {
-                    e.preventDefault();
-                    redo();
-                }
-            }, true); // 第3引数をtrueにして優先度を上げる
-
-            // 7. タイミングの最適化
-            // inputのたびに保存（閉じても大丈夫なように）
-            document.addEventListener('input', saveToLocal);
-
-            // change（入力確定時）にだけ履歴を作る（Undoが使いやすくなる）
-            document.addEventListener('change', saveHistory);
-
-
-
-
-            window.addEventListener('load', () => {
-                // 1. 在高テーブルの作成（これだけはデータに関わらず必要）
-                const cb = document.getElementById('cash-body');
-                if (cb) {
-                    cb.innerHTML = ""; // 重複防止のため一度空にする
-                    U.forEach(v => {
-                        cb.innerHTML += `<tr><td>${v.toLocaleString()}</td><td><input type="number" class="c-q" data-u="${v}" value="0" min="0" oninput="calculate()"></td><td class="c-s">0</td></tr>`;
-                    });
-                }
-
-                // 2. データの復元、または初期伝票の作成
-                const saved = localStorage.getItem('sales_data');
-                if (saved) {
-                    // 保存データがあれば、そこから伝票枚数も中身もすべて復元
-                    loadFromLocal();
-                } else {
-                    // 保存データがない（初回起動）時だけ、基本のセットを出す
-                    addSheet('drink');
-                    addSheet('food');
-                    if (typeof addEntryRow === 'function') { addEntryRow('mae'); addEntryRow('tou'); }
-                    if (typeof addSpecialRow === 'function') addSpecialRow();
-                    if (typeof calculate === 'function') calculate();
-                }
-
-                // 3. Undo用の初期状態を記録
-                if (typeof saveHistory === 'function') saveHistory();
-            });
-
-
-
-
-
-
-            // 1. 一括リセット機能
-            function clearData() {
-                if (!confirm('入力内容をすべて消去してリセットしますか？')) return;
-                //web上の保存データ削除
-                localStorage.removeItem('sales_data');
-                const inputs = document.querySelectorAll('input, select');
-                inputs.forEach(el => {
-                    if (el.type === 'checkbox') el.checked = false;
-                    else if (el.type === 'number') el.value = 0;
-                    else el.value = "";
-                });
-
-                // もしログも保存している場合は削除
-                localStorage.removeItem('sales_log');
-                // 画面上のログエリアを空にする
-                const logBox = document.getElementById('logOutput');
-                if (logBox) {
-                    logBox.value = "";
-                }
-
-                location.reload();
-                historyStack = [];
-                if (typeof calculate === 'function') calculate();
-                alert('リセットしました');
-            }
-
-
-
-        </script>
-
-
-
-
-        <div class="section" style="border-top:4px solid #444; background:#f9f9f9;">
-            <div class="sec-title">💾 確定ログ保存</div>
-            <div class="log-btn-group no-print">
-                <!-- 1つ目：ログを生成するボタン -->
-                <button onclick="generateTableLog()"
-                    style="background:#27ae60; color:white; padding:10px; border:none; border-radius:4px; cursor:pointer; font-weight:bold;">📊
-                    ログを生成</button>
-
-                <!-- 2つ目：ログをクリップボードにコピーするボタン -->
-                <button onclick="copyToClipboard()"
-                    style="background:#0066cc; color:white; padding:10px; border:none; border-radius:4px; cursor:pointer; font-weight:bold;">📋
-                    ログをコピー</button>
-
-                <!-- 3つ目：ログの中身だけを消去するボタン -->
-                <button
-                    onclick="if(confirm('表示されているログを消去しますか？（入力データは消えません）')) document.getElementById('logOutput').value=''"
-                    style="background:#888; color:white; padding:10px; border:none; border-radius:4px; cursor:pointer;">ログ表示のクリア</button>
-            </div>
-
-            <textarea id="logOutput" class="log-area" readonly placeholder="「ログを生成」を押すとここにデータが蓄積されます..."></textarea>
-
-            <!-- 画面最下部：誤操作防止のため離して配置 -->
-            <div class="section no-print"
-                style="margin-top: 50px; border-top: 2px dashed #ffbcbc; text-align: center; padding: 30px; background: #fff5f5;">
-                <p style="color: #c0392b; font-size: 11px; margin-bottom: 12px; font-weight: bold;">⚠️
-                    次のイベントを開始する時以外は触らないでください</p>
-                <button class="btn-del" onclick="clearData()"
-                    style="padding: 12px 24px; background: #e74c3c; border: 2px solid #c0392b; color: white; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 13px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
-                    🔥 全ての入力内容をリセット（全消去）
-                </button>
-            </div>
-
+            <!-- 3つ目：ログの中身だけを消去するボタン -->
+            <button
+                onclick="if(confirm('表示されているログを消去しますか？（入力データは消えません）')) document.getElementById('logOutput').value=''"
+                style="background:#888; color:white; padding:10px; border:none; border-radius:4px; cursor:pointer;">ログ表示のクリア</button>
         </div>
+
+        <textarea id="logOutput" class="log-area" readonly placeholder="「ログを生成」を押すとここにデータが蓄積されます..."></textarea>
+
+        <!-- 画面最下部：誤操作防止のため離して配置 -->
+        <div class="section no-print"
+            style="margin-top: 50px; border-top: 2px dashed #ffbcbc; text-align: center; padding: 30px; background: #fff5f5;">
+            <p style="color: #c0392b; font-size: 11px; margin-bottom: 12px; font-weight: bold;">⚠️
+                次のイベントを開始する時以外は触らないでください</p>
+            <button class="btn-del" onclick="clearData()"
+                style="padding: 12px 24px; background: #e74c3c; border: 2px solid #c0392b; color: white; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 13px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+                🔥 全ての入力内容をリセット（全消去）
+            </button>
+        </div>
+
+    </div>
 
 
 </body>
